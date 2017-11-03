@@ -1,0 +1,25 @@
+{
+  "name": "yelpcamp",
+  "version": "1.0.0",
+  "description": "FullStack Application with Express JS, as part of the course The Web Developer Bootcamp on Udemy, being the main project in the class",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JolitaArnau/YelpCamp.git"
+  },
+  "author": "Jolita Arnaudova",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JolitaArnau/YelpCamp/issues"
+  },
+  "homepage": "https://github.com/JolitaArnau/YelpCamp#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "ejs": "^2.5.7",
+    "express": "^4.16.2",
+    "mongoose": "^4.12.4"
+  }
+}
