@@ -1,10 +1,9 @@
 var express = require("express");
 var router  = express.Router();
-
 var Campground = require("../models/campground");
+
 // INDEX PAGE - show all campgrounds
 router.get("/campgrounds", function(req, res) {
-    console.log(req.user);
     Campground.find({}, function (err, allCampgrounds) {
         if(err) {
             console.log(err);
@@ -20,7 +19,11 @@ router.post("/campgrounds", isLoggedIn, function(req, res) {
     var name = req.body.name;
     var image = req.body.image;
     var description = req.body.description;
-    var newCampground = {name: name, image: image, description: description};
+    var author = {
+        id: req.user._id,
+        username: req.user.username
+    };
+    var newCampground = {name: name, image: image, description: description, author: author};
     Campground.create(newCampground, function (err, newlyCreated) {
         if(err) {
             console.log(err)
@@ -48,7 +51,7 @@ router.get("/campgrounds/:id", function(req, res) {
 
 });
 
-// middlewear
+// middleware
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
         return next();
