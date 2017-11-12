@@ -2,7 +2,7 @@ var mongoose     = require("mongoose");
 var Campground   = require("./models/campground");
 var Comment      = require("./models/comment");
 
-var data = [
+/*var data = [
     {
     name: "Snow White",
     image: "http://cdn.grindtv.com/uploads/2015/02/shutterstock_242371765.jpg",
@@ -19,7 +19,7 @@ var data = [
         description: "Perfect for families!"
     }
 
-    ];
+    ]; */
 
 function seedDB() {
     Campground.remove({}, function (err) {

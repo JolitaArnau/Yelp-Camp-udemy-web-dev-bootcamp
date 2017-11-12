@@ -41,7 +41,6 @@ router.get("/campgrounds/new", isLoggedIn, function(req, res) {
 // Find campground by Id and display detailed info about that campground
 router.get("/campgrounds/:id", function(req, res) {
     Campground.findById(req.params.id).populate("comments").exec(function(err, foundCampground) {
-
         if(err) {
             console.log(err);
         } else {
@@ -49,6 +48,29 @@ router.get("/campgrounds/:id", function(req, res) {
         }
     });
 
+});
+
+// Render template for editing a campground
+router.get("/campgrounds/:id/edit", function (req, res) {
+    Campground.findById(req.params.id, function (err, foundCampground) {
+        if (err) {
+            res.redirect("/campgrounds")
+        } else {
+            res.render("campgrounds/edit", {campground: foundCampground});
+        }
+    });
+});
+
+// Update the previously edited campground
+router.put("/campgrounds/:id", function (req, res) {
+   // find and update the correct cmpground
+    Campground.findByIdAndUpdate(req.params.id, req.body.campground, function (err, upatedCampground) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.redirect("/campgrounds/" + req.params.id);
+        }
+    });
 });
 
 // middleware
