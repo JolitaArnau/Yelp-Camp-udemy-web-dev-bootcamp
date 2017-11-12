@@ -40,7 +40,7 @@ router.post("/campgrounds/:id/comments", isLoggedIn, function (req, res) {
 });
 
 // Render template for editing a comment
-router.get("/campgrounds/:id/comments/:comment_id/edit", function (req, res) {
+router.get("/campgrounds/:id/comments/:comment_id/edit", checkCommentOwnerShip, function (req, res) {
     Comment.findById(req.params.comment_id, function (err, foundComment) {
         if (err) {
             res.redirect("back");
@@ -51,7 +51,7 @@ router.get("/campgrounds/:id/comments/:comment_id/edit", function (req, res) {
 });
 
 // Update previously edited comment
-router.put("/campgrounds/:id/comments/:comment_id", function (req, res) {
+router.put("/campgrounds/:id/comments/:comment_id", checkCommentOwnerShip, function (req, res) {
     Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function (err, updatedComment) {
         if (err) {
             res.redirect("back");
@@ -62,8 +62,7 @@ router.put("/campgrounds/:id/comments/:comment_id", function (req, res) {
 });
 
 // Delete a comment
-router.delete("/campgrounds/:id/comments/:comment_id", function (req, res) {
-    //findByIdAndRemove
+router.delete("/campgrounds/:id/comments/:comment_id", checkCommentOwnerShip,function (req, res) {
     Comment.findByIdAndRemove(req.params.comment_id, function (err) {
         if (err) {
             res.redirect("back");
@@ -72,6 +71,25 @@ router.delete("/campgrounds/:id/comments/:comment_id", function (req, res) {
         }
     });
 });
+
+function checkCommentOwnerShip(req, res, next) {
+    if (req.isAuthenticated()) {
+        Comment.findById(req.params.comment_id, function (err, foundComment) {
+            if (err) {
+                res.redirect("back")
+            } else {
+                // does user own the comment?
+                if (foundComment.author.id.equals(req.user._id)) {
+                    next();
+                } else {
+                    res.redirect("back");
+                }
+            }
+        });
+    } else {
+        res.redirect("back");
+    }
+}
 
 // middleware
 function isLoggedIn(req, res, next) {

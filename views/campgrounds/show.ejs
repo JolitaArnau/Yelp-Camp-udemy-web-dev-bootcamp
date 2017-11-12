@@ -40,13 +40,15 @@
                             10 days ago
                         </span>
                         <p><%= comment.text %></p>
-                        <a class="btn btn-xs btn-warning"
-                           href="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>/edit">
-                            Edit Review
-                        </a>
-                        <form class="deleteform" action="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
-                            <button class="btn btn-xs btn-danger">Delete Review</button>
-                        </form>
+                        <% if (currentUser && comment.author.id.equals(currentUser._id)) { %>
+                            <a class="btn btn-xs btn-warning"
+                                href="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>/edit">
+                                Edit Review
+                            </a>
+                            <form class="deleteform" action="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+                                <button class="btn btn-xs btn-danger">Delete Review</button>
+                            </form>
+                        <% } %>
                     </div>
                 </div>
                 <% }); %>
