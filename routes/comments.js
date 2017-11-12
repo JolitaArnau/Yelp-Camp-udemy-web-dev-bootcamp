@@ -36,8 +36,29 @@ router.post("/campgrounds/:id/comments", isLoggedIn, function (req, res) {
                 }
             })
         }
+    });
+});
 
-    })
+// Render template for editing a comment
+router.get("/campgrounds/:id/comments/:comment_id/edit", function (req, res) {
+    Comment.findById(req.params.comment_id, function (err, foundComment) {
+        if (err) {
+            res.redirect("back");
+        } else {
+            res.render("comments/edit", {campground_id: req.params.id, comment: foundComment});
+        }
+    });
+});
+
+// Update previously edited comment
+router.put("/campgrounds/:id/comments/:comment_id", function (req, res) {
+    Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function (err, updatedComment) {
+        if (err) {
+            res.redirect("back");
+        } else {
+            res.redirect("/campgrounds/" + req.params.id);
+        }
+    });
 });
 
 // middlewear
