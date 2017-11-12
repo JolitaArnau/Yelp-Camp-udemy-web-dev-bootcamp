@@ -23,7 +23,7 @@ var data = [
 
 function seedDB() {
     Campground.remove({}, function (err) {
-        console.log("removed everything");
+        /*console.log("removed everything");
         data.forEach(function(seed) {
             Campground.create(seed, function (err, campground) {
                 if (err) {
@@ -46,7 +46,7 @@ function seedDB() {
                         });
                 }
             });
-        });
+        }); */
     });
 }
 
